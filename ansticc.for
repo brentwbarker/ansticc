@@ -575,11 +575,11 @@ c
       nyzx=int(yzx/dyy+0.5)
       write(*,*)'ny-extrema:',nyxn,nyxx,nyyn,nyyx,nyzn,nyzx
 
-      allocate(imn(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
-     &        ,imx(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
-     &        ,imn2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
-     &        ,imx2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
-     &        )
+!      allocate(imn(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
+!     &        ,imx(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
+!     &        ,imn2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
+!     &        ,imx2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
+!     &        )
 c     initialize generic histogram
       if(ghist)then
        open(37,file='x11LHF7_hi.PTMY',status='unknown')
@@ -999,12 +999,12 @@ c     begin source calculation
        ! sort particles into 3D momentum bins
        CALL GIVAL
        CALL SORTI(IPO,IVAL,IEN)
-       CALL SORTI(IPO2,IVAL2,IEN2)
+!       CALL SORTI(IPO2,IVAL2,IEN2)
        CALL FINDI(IPO,IVAL,IEN)
        ! for each momentum bin, see if it contributes to source function
-       DO IIZ=nyzn,nyzx
-        DO IIY=nyyn,nyyx
-         DO IIX=nyxn,nyxx
+       DO IIZ=-NLM,NLX
+        DO IIY=-NT,NT
+         DO IIX=-NT,NT
           IIMX=IMX(IIX,IIY,IIZ)
           IF(IIMX.GT.0)THEN
            IIMN=IMN(IIX,IIY,IIZ)
@@ -1551,11 +1551,11 @@ C  PUTS VALUES INTO IMN AND IMX
       INCLUDE 'MOS.INC'
 C
       IQC=1
-      DO 80 IY=nyyn,nyyx
-      IYN=IY*(nyzx-nyzn+1)*(nyyx-nyyn+1) !NTL1 should this be nyyx or nyxx?
-      DO 70 IX=nyxn,nyxx
-      IYXN=IYN+IX*(nyzx-nyzn+1) !NLL1
-      DO 60 IZ=nyzn,nyzx
+      DO 80 IY=-NT,NT
+      IYN=IY*NTL1
+      DO 70 IX=-NT,NT
+      IYXN=IYN+IX*NLL1
+      DO 60 IZ=-NLM,NLX
       IMN(IX,IY,IZ)=IQC
       IVXYZ=IYXN+IZ
  20   CONTINUE
