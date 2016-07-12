@@ -24,7 +24,8 @@ C      DATA fname/'x11M2F6'/nqu/4000/ !40ar45sc dep soft no-comp-pro, NN CS 10x
 c      DATA fname/'x11JE97'/nqu/300/ !40ar58fe bim=0 dep soft comp-pro
 c      DATA fname/'x14M97Q'/nqu/300/ !40ar58fe bim=2.6 b_red=0.3 dep soft comp-pro
 c      DATA fname/'x11IDQW'/nqu/4800/ !40ar58fe bim=2.52 b_red=0.3 dep soft comp-pro
-      DATA fname/'6eb9cc7'/nqu/12800/ !40ar58fe bim=2.52 b_red=0.3 dep soft comp-pro
+c      DATA fname/'6eb9cc7'/nqu/12800/ !40ar58fe bim=2.52 b_red=0.3 dep soft comp-pro
+       DATA fname/'1234567'/nqu/4000/ !40ar58fe youngs g03
 c      DATA fname/'x161PLW'/nqu/300/ !40ar58fe bim=4.4 dep soft comp-pro
 c      DATA fname/'x11328K'/nqu/300/ !40ca58ni bim=0.0 dep soft comp-pro
 c      DATA fname/'x16ZG2L'/nqu/300/ !40ca58ni bim=4.4 dep soft comp-pro
@@ -483,7 +484,8 @@ c
       fbo_u=3
       frms=fname(kf)//'.RMS'    ! 2-particle RMS
       frms_u=1
-      OPEN(11,FILE=FILNAM,FORM='UNFORMATTED',STATUS='OLD')
+c      OPEN(11,FILE=FILNAM,FORM='UNFORMATTED',STATUS='OLD')
+      OPEN(11,FILE=FILNAM,FORM='FORMATTED',STATUS='OLD')
 
       IF(bthist)THEN
       ENDIF
@@ -508,19 +510,33 @@ C
       IEN=1  !IEN is number of particles
       IEN2=1
  50   CONTINUE
-      READ(11,END=250)IDIC,IXXI(IEN),IYYI(IEN),IZZI(IEN)
+!      READ(11,iostat=istat)IDIC,IXXI(IEN),IYYI(IEN),IZZI(IEN)
+!     R  ,ITC(IEN),IRX(IEN),IRY(IEN),IRZ(IEN),IRHR(IEN)
+      READ(11,'(9(I7))',iostat=istat)IDIC,IXXI(IEN),IYYI(IEN),IZZI(IEN)
      R  ,ITC(IEN),IRX(IEN),IRY(IEN),IRZ(IEN),IRHR(IEN)
-c      READ(11,'(9(I7))')IDIC,IXXI(IEN),IYYI(IEN),IZZI(IEN)
-c     R  ,ITC(IEN),IRX(IEN),IRY(IEN),IRZ(IEN),IRHR(IEN)
+
+      if(istat.eq.IOSTAT_END) then
+       goto 250
+      elseif(istat.eq.IOSTAT_EOR) then
+       write(ERROR_UNIT,*)'ansticc: End-Of-Record Error'
+       stop
+      elseif(istat.ne.0) then
+       write(ERROR_UNIT,*)IOSTAT_EOR, IOSTAT_END
+       write(ERROR_UNIT,*)'ansticc: I/O error in read, IOSTAT=',istat
+       stop
+      endif
+
       IF(IDIC.EQ.-100)THEN
+       goto 50
 c         goto 250
-         IF((KB/2)*2.NE.KB)THEN
-            KB=KB+1
-            GOTO 50
-         ELSE
-            GOTO 250
-         ENDIF
+!         IF((KB/2)*2.NE.KB)THEN
+!            KB=KB+1
+!            GOTO 50
+!         ELSE
+!            GOTO 250
+!         ENDIF
       ENDIF
+
 
       ! if this is the 2nd particle, store info
       if(idic.eq.ipid2) then
