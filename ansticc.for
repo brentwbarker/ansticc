@@ -1191,10 +1191,12 @@ c                IF(BR(ISR).GT.RCIJ.AND.)THEN
 
 c     add to time dist/bin
                  itim=int((ti+tj)/2.0/btx*nbt+1.0)
-                 btim(isr,itim)=btim(isr,itim)+1
-                 bav(isr)=bav(isr)+(ti+tj)/2.0
-                 ber(isr)=ber(isr)+(ti+tj)/2*(ti+tj)/2
-                 btot(isr)=btot(isr)+1
+                 if(itim.le.ubound(btim,2)) then
+                  btim(isr,itim)=btim(isr,itim)+1
+                  bav(isr)=bav(isr)+(ti+tj)/2.0
+                  ber(isr)=ber(isr)+(ti+tj)/2*(ti+tj)/2
+                  btot(isr)=btot(isr)+1
+                 endif
 
                  GOTO 320
                 ENDIF !br.le.rcij...
