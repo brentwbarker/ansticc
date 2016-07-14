@@ -25,7 +25,8 @@ c      DATA fname/'x11JE97'/nqu/300/ !40ar58fe bim=0 dep soft comp-pro
 c      DATA fname/'x14M97Q'/nqu/300/ !40ar58fe bim=2.6 b_red=0.3 dep soft comp-pro
 c      DATA fname/'x11IDQW'/nqu/4800/ !40ar58fe bim=2.52 b_red=0.3 dep soft comp-pro
 c      DATA fname/'6eb9cc7'/nqu/12800/ !40ar58fe bim=2.52 b_red=0.3 dep soft comp-pro
-       DATA fname/'1234567'/nqu/4000/ !40ar58fe youngs g03
+c       DATA fname/'myg0301'/nqu/80000/ !40ar58fe youngs g03 rostock runs1-20
+       DATA fname/'myg1001'/nqu/80000/ !40ar58fe youngs g10 rostock runs1-20
 c      DATA fname/'x161PLW'/nqu/300/ !40ar58fe bim=4.4 dep soft comp-pro
 c      DATA fname/'x11328K'/nqu/300/ !40ca58ni bim=0.0 dep soft comp-pro
 c      DATA fname/'x16ZG2L'/nqu/300/ !40ca58ni bim=4.4 dep soft comp-pro
