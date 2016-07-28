@@ -1018,9 +1018,9 @@ c     begin source calculation
        CALL SORTI(IPO2,IVAL2,IEN2)
        CALL FINDI(IPO,IVAL,IEN)
        ! for each momentum bin, see if it contributes to source function
-       DO IIZ=-NLM,NLX
-        DO IIY=-NT,NT
-         DO IIX=-NT,NT
+       DO IIZ=nyzn,nyzx
+        DO IIY=nyyn,nyyx
+         DO IIX=nyxn,nyxx
           IIMX=IMX(IIX,IIY,IIZ)
           IF(IIMX.GT.0)THEN
            IIMN=IMN(IIX,IIY,IIZ)
