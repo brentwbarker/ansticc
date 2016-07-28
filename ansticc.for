@@ -1483,39 +1483,62 @@ C
 C
       INCLUDE 'PAR.INC'
 C
-      DO I=1,IEN
+      DO I=1,IEN  ! for first particle, PID=ipid
 
-        ! determine indices of momentum cells
-        IX=NINT(IXXI(I)*1E-3/DPTL)
-        IY=NINT(IYYI(I)*1E-3/DPTL)
-        IZ=NINT(IZZI(I)*1E-3/DPTL)
+        ! determine indices of r-rapidity cells
+        px = ixxi(i)*1e-3
+        py = iyyi(i)*1e-3
+        pz = izzi(i)*1e-3
+        p2 = px**2 + py**2 + pz**2
+        ee = sqrt(p2 + masses(ipid)**2)
+        yx = 0.5*log((ee+px)/(ee-px))
+        yy = 0.5*log((ee+py)/(ee-py))
+        yz = 0.5*log((ee+pz)/(ee-pz))
+        IX=NINT(yx/dyy)
+        IY=NINT(yy/dyy)
+        IZ=NINT(yz/dyy)
 
-        ! if indices are within total momentum region considered,
-        IF(ABS(IX).LE.NT.AND.ABS(IY).LE.NT.AND.
-     I    IZ.GE.-NLM.AND.IZ.LE.NLX)THEN
-          IVAL(I)=IY*NTL1+IX*NLL1+IZ
+        ! if indices are within total r-rapidity region considered,
+        if(     ix.ge.nyxn.and.ix.le.nyxx
+     &     .and.iy.ge.nyyn.and.iy.le.nyyx
+     &     .and.iz.ge.nyzn.and.iy.le.nyzx
+     &    ) then
+         ival(i) = ix + iy*(nyxx-nyxn+1)+iz*(nyxx-nyxn+1)*(nyyx-nyyn+1)
         ELSE
-          IVAL(I)=MAXIPO
+          IVAL(I)=   nyxx + nyyx*(nyxx-nyxn+1)
+     &             + nyzx*(nyxx-nyxn+1)*(nyyx-nyyn+1) + 1
         ENDIF
       ENDDO
-C
-      DO I=1,IEN2
 
-        ! determine indices of momentum cells
-        IX2=NINT(IXXI2(I)*1E-3/DPTL)
-        IY2=NINT(IYYI2(I)*1E-3/DPTL)
-        IZ22=NINT(IZZI2(I)*1E-3/DPTL)
+      DO I=1,IEN2  ! for second particle, PID=ipid2
 
-        ! if indices are within total momentum region considered,
-        IF(ABS(IX2).LE.NT.AND.ABS(IY2).LE.NT.AND.
-     I    IZ22.GE.-NLM.AND.IZ22.LE.NLX)THEN
-          IVAL2(I)=IY2*NTL1+IX2*NLL1+IZ22
+        ! determine indices of r-rapidity cells
+        px = ixxi2(i)*1e-3
+        py = iyyi2(i)*1e-3
+        pz = izzi2(i)*1e-3
+        p2 = px**2 + py**2 + pz**2
+        ee = sqrt(p2 + masses(ipid2)**2)
+        yx = 0.5*log((ee+px)/(ee-px))
+        yy = 0.5*log((ee+py)/(ee-py))
+        yz = 0.5*log((ee+pz)/(ee-pz))
+        IX=NINT(yx/dyy)
+        IY=NINT(yy/dyy)
+        IZ=NINT(yz/dyy)
+
+        ! if indices are within total r-rapidity region considered,
+        if(     ix.ge.nyxn.and.ix.le.nyxx
+     &     .and.iy.ge.nyyn.and.iy.le.nyyx
+     &     .and.iz.ge.nyzn.and.iy.le.nyzx
+     &    ) then
+         ival2(i) = ix + iy*(nyxx-nyxn+1)+iz*(nyxx-nyxn+1)*(nyyx-nyyn+1)
         ELSE
-          IVAL2(I)=MAXIPO
+          IVAL2(I)=   nyxx + nyyx*(nyxx-nyxn+1)
+     &              + nyzx*(nyxx-nyxn+1)*(nyyx-nyyn+1) + 1
         ENDIF
       ENDDO
-C
-      END
+
+
+      END subroutine gival
 
 
       SUBROUTINE SORTI(IPO,IVAL,NQ)
