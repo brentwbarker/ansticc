@@ -1058,11 +1058,21 @@ c     begin source calculation
             ZI=IRZ(IIP)*1E-2
             rhxi=irhr(iip)*1e-3
             if((ti<tmin).or.(ti>tmax)) cycle
-            DO 260 JJ=II+1,IIMX
-             JJP=IPO(JJ)
-             PXJ=IXXI(JJP)*1E-3
-             PYJ=IYYI(JJP)*1E-3
-             PZJ=IZZI(JJP)*1E-3
+
+            ! if identical particles, don't count interactions twice
+            if(ipid.eq.ipid2) then
+             jmin = ii + 1
+             jmax = iimx
+            else !if not identical particles, choose new particle index bounds
+             jmin = imn2(ix,iy,iz)
+             jmax = imx2(ix,iy,iz)
+            endif
+
+            DO 260 JJ=jmin,jmax
+             JJP=IPO2(JJ)
+             PXJ=IXXI2(JJP)*1E-3
+             PYJ=IYYI2(JJP)*1E-3
+             PZJ=IZZI2(JJP)*1E-3
              PJTK=PXJ*PXJ+PYJ*PYJ
              PJT=SQRT(PJTK)
              pjtok=pjtk+pzj*pzj
