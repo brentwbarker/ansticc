@@ -1,6 +1,7 @@
 c     updated June 2009: added 1- and 2-particle RMS calculations as
 c     alternative method of quantifying source size - BWB
 
+      use ansticc_global
       use class_ArrayList
       use iso_fortran_env
 
@@ -309,17 +310,9 @@ C
       DIMENSION RHOX(PCT),ANOX(PCT),ANIB(PCT)
 C
       PARAMETER(AMP=.9383,AMN=.9396,AM0=.5*(AMP+AMN)) ! proton, neutron, average masses in GeV/c^2
-      real(kind=REAL64), parameter, dimension(1:5)
-     & :: masses = (/.9383, .9396, 1.8757, 2.8077, 2.8098/)
       PARAMETER(B=.008) ! binding energy per nucleon in GeV/c^2
       PARAMETER(AMB=AM0-B)
       PARAMETER(EBEAM=TLAB+AMB) ! total lab frame energy per baryon
-C
-      integer, parameter :: ipid=1 !< which particle ID to use for analysis
-      integer, parameter :: ipid2=1 !< ID of 2nd particle in source function calculation (and maybe other 2-particle things eventually)
-      real(kind=REAL64), parameter :: am1=masses(ipid)
-     &                              , am2=masses(ipid2)
-      real(kind=REAL64), PARAMETER :: AM1K=AM1*AM1
 C
       INTEGER(2) IDIC
       INTEGER(2) IRX(NSIZ),IRY(NSIZ),IRZ(NSIZ),ITC(NSIZ),IRHR(NSIZ)
@@ -1478,11 +1471,14 @@ c      and extension desired.
       end
 
       SUBROUTINE GIVAL
+       use ansticc_global
 C
       INCLUDE 'MOS.INC'
 C
       INCLUDE 'PAR.INC'
-C
+
+      real(kind=REAL64) :: ee
+
       DO I=1,IEN  ! for first particle, PID=ipid
 
         ! determine indices of r-rapidity cells
