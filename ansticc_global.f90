@@ -17,16 +17,13 @@ contains
   integer, DIMENSION(:),      intent(in)  :: IPO,IVAL
   integer,                    intent(in)  :: nq
   integer, dimension(:,:,:),  intent(out) :: imn, imx
-!      INCLUDE 'MOS.INC'
 
   IQC=1
-  DO iy=nyyn,nyyx
-   IYN=IY*(nyzx-nyzn+1)*(nyyx-nyyn+1) !NTL1
-   DO IX=nyxn,nyxx
-    IYXN=IYN+IX*(nyzx-nyzn+1) !NLL1
-    DO IZ=nyzn,nyzx
+  DO iz=nyzn,nyzx
+   DO iy=nyyn,nyyx
+    DO ix=nyxn,nyxx
      IMN(IX,IY,IZ)=IQC
-     IVXYZ=IYXN+IZ
+     IVXYZ = ix + iy*(nyxx-nyxn+1)+iz*(nyxx-nyxn+1)*(nyyx-nyyn+1)
  20  CONTINUE
      IF(IQC.GT.NQ)THEN
       IF(IMN(IX,IY,IZ).LE.NQ)THEN
