@@ -10,4 +10,45 @@ module ansticc_global
                                , am2=masses(ipid2)
  real(kind=REAL64), PARAMETER :: AM1K=AM1*AM1
 
+contains
+
+!  PUTS VALUES INTO IMN AND IMX
+ SUBROUTINE FINDI(IPO,IVAL,NQ,IMN,IMX)
+  integer, DIMENSION(:),      intent(in)  :: IPO,IVAL
+  integer,                    intent(in)  :: nq
+  integer, dimension(:,:,:),  intent(out) :: imn, imx
+!      INCLUDE 'MOS.INC'
+
+  IQC=1
+  DO iy=nyyn,nyyx
+   IYN=IY*(nyzx-nyzn+1)*(nyyx-nyyn+1) !NTL1
+   DO IX=nyxn,nyxx
+    IYXN=IYN+IX*(nyzx-nyzn+1) !NLL1
+    DO IZ=nyzn,nyzx
+     IMN(IX,IY,IZ)=IQC
+     IVXYZ=IYXN+IZ
+ 20  CONTINUE
+     IF(IQC.GT.NQ)THEN
+      IF(IMN(IX,IY,IZ).LE.NQ)THEN
+       IMX(IX,IY,IZ)=NQ
+      ELSE
+       IMX(IX,IY,IZ)=-1
+      ENDIF
+     ELSEIF(IVAL(IPO(IQC)).GT.IVXYZ)THEN
+!*** EXTRA***
+      IF(IQC.GT.IMN(IX,IY,IZ))THEN
+       IMX(IX,IY,IZ)=IQC-1
+      ELSE
+       IMX(IX,IY,IZ)=-1
+      ENDIF
+     ELSE
+      IQC=IQC+1
+      GOTO 20
+     ENDIF
+    enddo !iz
+   enddo !ix
+  enddo !iy
+
+ END subroutine findi
+
 end module ansticc_global

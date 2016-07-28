@@ -1009,7 +1009,8 @@ c     begin source calculation
        CALL GIVAL
        CALL SORTI(IPO,IVAL,IEN)
        CALL SORTI(IPO2,IVAL2,IEN2)
-       CALL FINDI(IPO,IVAL,IEN)
+       CALL FINDI(IPO,IVAL,IEN,imn,imx)
+       CALL FINDI(IPO2,IVAL2,IEN2,imn2,imx2)
        ! for each momentum bin, see if it contributes to source function
        DO IIZ=nyzn,nyzx
         DO IIY=nyyn,nyyx
@@ -1582,40 +1583,4 @@ C
       END
 
 
-      SUBROUTINE FINDI(IPO,IVAL,NQ)
-C  PUTS VALUES INTO IMN AND IMX
-      DIMENSION IPO(*),IVAL(*)
-      INCLUDE 'MOS.INC'
-C
-      IQC=1
-      DO 80 IY=nyyn,nyyx
-      IYN=IY*(nyzx-nyzn+1)*(nyyx-nyyn+1) !NTL1
-      DO 70 IX=nyxn,nyxx
-      IYXN=IYN+IX*(nyzx-nyzn+1) !NLL1
-      DO 60 IZ=nyzn,nyzx
-      IMN(IX,IY,IZ)=IQC
-      IVXYZ=IYXN+IZ
- 20   CONTINUE
-      IF(IQC.GT.NQ)THEN
-        IF(IMN(IX,IY,IZ).LE.NQ)THEN
-          IMX(IX,IY,IZ)=NQ
-        ELSE
-          IMX(IX,IY,IZ)=-1
-        ENDIF
-      ELSEIF(IVAL(IPO(IQC)).GT.IVXYZ)THEN
-*** EXTRA***
-        IF(IQC.GT.IMN(IX,IY,IZ))THEN
-          IMX(IX,IY,IZ)=IQC-1
-        ELSE
-          IMX(IX,IY,IZ)=-1
-        ENDIF
-      ELSE
-        IQC=IQC+1
-        GOTO 20
-      ENDIF
- 60   CONTINUE
- 70   CONTINUE
- 80   CONTINUE
 
-C
-      END
