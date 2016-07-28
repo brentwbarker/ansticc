@@ -1478,7 +1478,7 @@ C
 C
       INCLUDE 'PAR.INC'
 
-      real(kind=REAL64) :: ee
+      real(kind=REAL64) :: ee,yx,yy,yz
 
       DO I=1,IEN  ! for first particle, PID=ipid
 
