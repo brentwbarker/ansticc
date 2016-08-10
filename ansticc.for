@@ -1,3 +1,11 @@
+! Copyright to it's authors. See the COPYRIGHT file at the top-level directory
+! of this distribution.
+!
+! This file is part of ansticc. It is subject to the license terms in the
+! LICENSE file found in the top-level directory of this distribution. No part
+! of ansticc, including this file, may be copied, modified, propagated, or
+! distributed except according to the terms contained in the LICENSE file.
+!
 c     updated June 2009: added 1- and 2-particle RMS calculations as
 c     alternative method of quantifying source size - BWB
 
