@@ -1078,16 +1078,16 @@ c     begin source calculation
              pjtok=pjtk+pzj*pzj
              pjto2=2*sqrt(pjtok)
              ANGT=ATAN2(PJT,PZJ)
-             ptmj=pjt/am1
+             ptmj=pjt/masses(ipid2)
              ptmij=sqrt((pxi+pxj)**2+(pyi+pyj)**2)/(2.0*am1)
              if(ptmij.le.pttmin(ipt).or.(ptmij.gt.pttmax))goto 260
              if((ptmj.le.ptmin).or.(ptmj.ge.ptmax))goto 260
              IF(ABS(ANGR-ANGT).GT.DANGR)GOTO 260 ! gate on lab theta
-             TJ=ITC(JJP)/20.
+             TJ=ITC2(JJP)/20.
              if((tj<tmin).or.(tj>tmax)) cycle
              PJTOK=PJTK+PZJ*PZJ
              pjto=sqrt(pjtok)
-             EJ=SQRT(AM1K+PJTOK)
+             EJ=SQRT(masses(ipid2)**2+PJTOK)
 c            boost momentum from lab to reaction cms
              CALL LOREN(0.d0,0.d0,-BGCM,GCM,PXJ,PYJ,PZJ,EJ
      L            ,PXCJ,PYCJ,PZCJ,ECJ)
@@ -1122,6 +1122,7 @@ c            boost momentum from lab to reaction cms
              ENDDO
              IF(ISB.NE.0)THEN
               ECIJ=ECI+ECJ
+              !eeeek! Is this the way to do this with non-identical particles?
               AMIJ=SQRT(ECIJ*ECIJ-PCIJK)
               TJ=ITC(JJP)/20.
               TIJ=TJ-TI
