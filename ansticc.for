@@ -1122,17 +1122,16 @@ c            boost momentum from lab to reaction cms
              ENDDO
              IF(ISB.NE.0)THEN
               ECIJ=ECI+ECJ
-              !eeeek! Is this the way to do this with non-identical particles?
               AMIJ=SQRT(ECIJ*ECIJ-PCIJK)
-              TJ=ITC(JJP)/20.
+              TJ=ITC2(JJP)/20.
               TIJ=TJ-TI
-              xj=irx(jjp)*1e-2
-              yj=iry(jjp)*1e-2
-              zj=irz(jjp)*1e-2
-              rhxj=irhr(jjp)*1e-3
-              XIJ=IRX(JJP)*1E-2-XI
-              YIJ=IRY(JJP)*1E-2-YI
-              ZIJ=IRZ(JJP)*1E-2-ZI
+              xj=irx2(jjp)*1e-2
+              yj=iry2(jjp)*1e-2
+              zj=irz2(jjp)*1e-2
+              rhxj=irhr2(jjp)*1e-3
+              XIJ=IRX2(JJP)*1E-2-XI
+              YIJ=IRY2(JJP)*1E-2-YI
+              ZIJ=IRZ2(JJP)*1E-2-ZI
 c             boost rel position from reaction CMS to 2-particle CMS
               CALL LOREN(-PXIJ/AMIJ,-PYIJ/AMIJ
      C             ,-PZCIJ/AMIJ,ECIJ/AMIJ,XIJ,YIJ
