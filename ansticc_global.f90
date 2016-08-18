@@ -21,7 +21,11 @@ contains
  SUBROUTINE FINDI(IPO,IVAL,NQ,IMN,IMX)
   integer, DIMENSION(:),      intent(in)  :: IPO,IVAL
   integer,                    intent(in)  :: nq
-  integer, dimension(:,:,:),  intent(out) :: imn, imx
+  integer, dimension(:,:,:), allocatable, intent(out) :: imn, imx
+!  integer, dimension(nyxn:nyxx,nyyn:nyyx,nyzn:nyzx),  intent(out) :: imn, imx
+
+  allocate(imn(nyxn:nyxx,nyyn:nyyx,nyzn:nyzx))
+  allocate(imx(nyxn:nyxx,nyyn:nyyx,nyzn:nyzx))
 
   IQC=1
   DO iz=nyzn,nyzx
