@@ -1064,8 +1064,8 @@ c     begin source calculation
              jmin = ii + 1
              jmax = iimx
             else !if not identical particles, choose new particle index bounds
-             jmin = imn2(ix,iy,iz)
-             jmax = imx2(ix,iy,iz)
+             jmin = imn2(iix,iiy,iiz)
+             jmax = imx2(iix,iiy,iiz)
             endif
 
             DO 260 JJ=jmin,jmax
