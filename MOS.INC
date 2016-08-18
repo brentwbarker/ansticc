@@ -10,9 +10,6 @@
 !      DIMENSION IMX(-NT:NT,-NT:NT,-NLM:NLX)
 !      DIMENSION IMN2(-NT:NT,-NT:NT,-NLM:NLX)
 !      DIMENSION IMX2(-NT:NT,-NT:NT,-NLM:NLX)
-      integer :: nyxn, nyxx, nyyn, nyyx, nyzn, nyzx !< min, max indices of r-rapidity bins
-
-      integer, dimension(:,:,:), allocatable :: imn, imx, imn2, imx2 !< array of indices of particles that start each r-rapidity bin
 C
       PARAMETER(NLL1=NLM+NLX+1)       !< total number of cells in long-direction
       PARAMETER(NTL1=(NT+NT+1)*NLL1)  !< total number of cells in 2D x-z plane

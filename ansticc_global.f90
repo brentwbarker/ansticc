@@ -10,6 +10,11 @@ module ansticc_global
                                , am2=masses(ipid2)
  real(kind=REAL64), PARAMETER :: AM1K=AM1*AM1
 
+ integer :: nyxn, nyxx, nyyn, nyyx, nyzn, nyzx !< min, max indices of r-rapidity bins
+
+ integer, dimension(:,:,:), allocatable :: imn, imx, imn2, imx2 !< array of indices of particles that start each r-rapidity bin
+
+
 contains
 
 !  PUTS VALUES INTO IMN AND IMX
