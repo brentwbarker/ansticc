@@ -8,4 +8,4 @@
 # of ansticc, including this file, may be copied, modified, propagated, or
 # distributed except according to the terms contained in the LICENSE file.
 
-gfortran -Wall -fcheck=all -std=f2008 bexception.f90 prec_def.f90 class_ArrayList.f90 ansticc.for -o ansticc
+gfortran -Wall -Wno-maybe-uninitialized -Wno-unused-variable -fcheck=all -std=f2008 bexception.f90 prec_def.f90 class_ArrayList.f90 ansticc_global.f90 ansticc.for -o ansticc

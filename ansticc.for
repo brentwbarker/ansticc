@@ -9,6 +9,7 @@
 c     updated June 2009: added 1- and 2-particle RMS calculations as
 c     alternative method of quantifying source size - BWB
 
+      use ansticc_global
       use class_ArrayList
       use iso_fortran_env
 
@@ -33,8 +34,7 @@ c      DATA fname/'x11JE97'/nqu/300/ !40ar58fe bim=0 dep soft comp-pro
 c      DATA fname/'x14M97Q'/nqu/300/ !40ar58fe bim=2.6 b_red=0.3 dep soft comp-pro
 c      DATA fname/'x11IDQW'/nqu/4800/ !40ar58fe bim=2.52 b_red=0.3 dep soft comp-pro
 c      DATA fname/'6eb9cc7'/nqu/12800/ !40ar58fe bim=2.52 b_red=0.3 dep soft comp-pro
-c       DATA fname/'myg0301'/nqu/80000/ !40ar58fe youngs g03 rostock runs1-20
-       DATA fname/'myg1001'/nqu/80000/ !40ar58fe youngs g10 rostock runs1-20
+       DATA fname/'1234567'/nqu/4000/ !40ar58fe youngs g03
 c      DATA fname/'x161PLW'/nqu/300/ !40ar58fe bim=4.4 dep soft comp-pro
 c      DATA fname/'x11328K'/nqu/300/ !40ca58ni bim=0.0 dep soft comp-pro
 c      DATA fname/'x16ZG2L'/nqu/300/ !40ca58ni bim=4.4 dep soft comp-pro
@@ -318,17 +318,9 @@ C
       DIMENSION RHOX(PCT),ANOX(PCT),ANIB(PCT)
 C
       PARAMETER(AMP=.9383,AMN=.9396,AM0=.5*(AMP+AMN)) ! proton, neutron, average masses in GeV/c^2
-      real(kind=REAL64), parameter, dimension(1:5)
-     & :: masses = (/.9383, .9396, 1.8757, 2.8077, 2.8098/)
       PARAMETER(B=.008) ! binding energy per nucleon in GeV/c^2
       PARAMETER(AMB=AM0-B)
       PARAMETER(EBEAM=TLAB+AMB) ! total lab frame energy per baryon
-C
-      integer, parameter :: ipid=1 !< which particle ID to use for analysis
-      integer, parameter :: ipid2=1 !< ID of 2nd particle in source function calculation (and maybe other 2-particle things eventually)
-      real(kind=REAL64), parameter :: am1=masses(ipid)
-     &                              , am2=masses(ipid2)
-      real(kind=REAL64), PARAMETER :: AM1K=AM1*AM1
 C
       INTEGER(2) IDIC
       INTEGER(2) IRX(NSIZ),IRY(NSIZ),IRZ(NSIZ),ITC(NSIZ),IRHR(NSIZ)
@@ -546,7 +538,6 @@ c         goto 250
 !         ENDIF
       ENDIF
 
-
       ! if this is the 2nd particle, store info
       if(idic.eq.ipid2) then
        ixxi2(ien2)=ixxi(ien)
@@ -600,11 +591,11 @@ c
       nyzx=int(yzx/dyy+0.5)
       write(*,*)'ny-extrema:',nyxn,nyxx,nyyn,nyyx,nyzn,nyzx
 
-!      allocate(imn(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
-!     &        ,imx(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
-!     &        ,imn2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
-!     &        ,imx2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
-!     &        )
+      allocate(imn(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
+     &        ,imx(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
+     &        ,imn2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
+     &        ,imx2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
+     &        )
 c     initialize generic histogram
       if(ghist)then
        open(37,file='x11LHF7_hi.PTMY',status='unknown')
@@ -1024,12 +1015,13 @@ c     begin source calculation
        ! sort particles into 3D momentum bins
        CALL GIVAL
        CALL SORTI(IPO,IVAL,IEN)
-!       CALL SORTI(IPO2,IVAL2,IEN2)
-       CALL FINDI(IPO,IVAL,IEN)
+       CALL SORTI(IPO2,IVAL2,IEN2)
+       CALL FINDI(IPO,IVAL,IEN,imn,imx)
+       CALL FINDI(IPO2,IVAL2,IEN2,imn2,imx2)
        ! for each momentum bin, see if it contributes to source function
-       DO IIZ=-NLM,NLX
-        DO IIY=-NT,NT
-         DO IIX=-NT,NT
+       DO IIZ=nyzn,nyzx
+        DO IIY=nyyn,nyyx
+         DO IIX=nyxn,nyxx
           IIMX=IMX(IIX,IIY,IIZ)
           IF(IIMX.GT.0)THEN
            IIMN=IMN(IIX,IIY,IIZ)
@@ -1073,11 +1065,21 @@ c     begin source calculation
             ZI=IRZ(IIP)*1E-2
             rhxi=irhr(iip)*1e-3
             if((ti<tmin).or.(ti>tmax)) cycle
-            DO 260 JJ=II+1,IIMX
-             JJP=IPO(JJ)
-             PXJ=IXXI(JJP)*1E-3
-             PYJ=IYYI(JJP)*1E-3
-             PZJ=IZZI(JJP)*1E-3
+
+            ! if identical particles, don't count interactions twice
+            if(ipid.eq.ipid2) then
+             jmin = ii + 1
+             jmax = iimx
+            else !if not identical particles, choose new particle index bounds
+             jmin = imn2(iix,iiy,iiz)
+             jmax = imx2(iix,iiy,iiz)
+            endif
+
+            DO 260 JJ=jmin,jmax
+             JJP=IPO2(JJ)
+             PXJ=IXXI2(JJP)*1E-3
+             PYJ=IYYI2(JJP)*1E-3
+             PZJ=IZZI2(JJP)*1E-3
              PJTK=PXJ*PXJ+PYJ*PYJ
              PJT=SQRT(PJTK)
              pjtok=pjtk+pzj*pzj
@@ -1572,40 +1574,4 @@ C
       END
 
 
-      SUBROUTINE FINDI(IPO,IVAL,NQ)
-C  PUTS VALUES INTO IMN AND IMX
-      DIMENSION IPO(*),IVAL(*)
-      INCLUDE 'MOS.INC'
-C
-      IQC=1
-      DO 80 IY=-NT,NT
-      IYN=IY*NTL1
-      DO 70 IX=-NT,NT
-      IYXN=IYN+IX*NLL1
-      DO 60 IZ=-NLM,NLX
-      IMN(IX,IY,IZ)=IQC
-      IVXYZ=IYXN+IZ
- 20   CONTINUE
-      IF(IQC.GT.NQ)THEN
-        IF(IMN(IX,IY,IZ).LE.NQ)THEN
-          IMX(IX,IY,IZ)=NQ
-        ELSE
-          IMX(IX,IY,IZ)=-1
-        ENDIF
-      ELSEIF(IVAL(IPO(IQC)).GT.IVXYZ)THEN
-*** EXTRA***
-        IF(IQC.GT.IMN(IX,IY,IZ))THEN
-          IMX(IX,IY,IZ)=IQC-1
-        ELSE
-          IMX(IX,IY,IZ)=-1
-        ENDIF
-      ELSE
-        IQC=IQC+1
-        GOTO 20
-      ENDIF
- 60   CONTINUE
- 70   CONTINUE
- 80   CONTINUE
 
-C
-      END
