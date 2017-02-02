@@ -368,8 +368,6 @@ C
      &                    , yzx !< maximum x-rapidity of any particle
      &                    , yzn !< minimum x-rapidity of any particle
 
-      real (kind=REAL64), parameter :: dyy = 0.027 !< width of r-rapidity cell (based on
-                                                  !+ momentum cell width of 0.025 GeV/c)
 
 
       yxx=-10
