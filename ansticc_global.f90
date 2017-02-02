@@ -14,6 +14,49 @@ module ansticc_global
 
  integer, dimension(:,:,:), allocatable :: imn, imx, imn2, imx2 !< array of indices of particles that start each r-rapidity bin
 
+ integer, parameter :: ia1 = 40 & !< projectile A
+                      ,iz1 = 20 & !< projectile Z
+                      ,ia2 = 40 & !< target A
+                      ,iz2 = 20   !< target Z
+
+ integer, parameter :: iato = ia1+ia2 &
+                     , izto = iz1+iz2 &
+                     , nsiz = izto*30000 ! may need to be increased
+
+ integer(kind=2), dimension(nsiz) :: ixxi &  !< raw value for x-momentum for pid1
+                                   , iyyi &  !< raw value for y-momentum for pid1
+                                   , izzi &  !< raw value for z-momentum for pid1
+                                   , ixxi2 & !< raw value for x-momentum for pid2
+                                   , iyyi2 & !< raw value for y-momentum for pid2
+                                   , izzi2   !< raw value for z-momentum for pid2
+
+ integer, dimension(nsiz) :: ipo  & !< array of pointers to particle indices for pid1
+                            ,ival &
+                            ,ipo2 & !< array of pointers to particle indices for pid2
+                            ,ival2
+
+ integer :: ien & !< number of particles of pid1
+           ,ien2  !< number of particles of pid2
+
+ real, parameter :: ptmx = 0.8 & !< p-transverse max
+                   ,plmn = 0.8 & !< p-longitudinal min (neg)
+                   ,plmx = 0.9   !< p-long max of momentum region
+
+ real (kind=REAL64), parameter :: vtmx = 0.65, vlmn=0.65, vlmx = 0.69 !< velocities based on above momenta that assume protons
+
+ real, parameter :: dptl = 0.025 !< width of momentum cell
+
+ real (kind=REAL64), parameter :: dyy = 0.027 !< width of r-rapidity cell (based on
+                                              !+ momentum cell width of 0.025 GeV/c)
+
+ ! number of cells in transverse and longitudinal directions. in transverse, i=-nt,nt
+ integer, PARAMETER :: NT =int(PTMX/DPTL+.5) &
+                      ,NLM=int(PLMN/DPTL+.5) &
+                      ,NLX=int(PLMX/DPTL+.5)
+
+ integer, PARAMETER :: NLL1   = NLM+NLX+1 &      !< total number of cells in long-direction
+                      ,NTL1   = (NT+NT+1)*NLL1 & !< total number of cells in 2D x-z plane
+                      ,MAXIPO = NT*NT*NLL1*10
 
 contains
 

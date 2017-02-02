@@ -69,9 +69,9 @@ c      data fname/'x11OPTN'/nqu/800/
 c      data fname/'x11E1TZ'/nqu/1600/
 c      data fname/'x11OBGA'/nqu/2400/
 C
-      INCLUDE 'PAR.INC'
+!      INCLUDE 'PAR.INC'
 C
-      INCLUDE 'MOS.INC'
+!      INCLUDE 'MOS.INC'
 c
 c     generic histogram
       logical ghist
@@ -1489,10 +1489,11 @@ c      and extension desired.
       end
 
       SUBROUTINE GIVAL
+       use ansticc_global
 C
-      INCLUDE 'MOS.INC'
+!      INCLUDE 'MOS.INC'
 C
-      INCLUDE 'PAR.INC'
+!      INCLUDE 'PAR.INC'
 C
       DO I=1,IEN
 
