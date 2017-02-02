@@ -1575,16 +1575,22 @@ C
 !        ENDIF
       ENDDO
 C
-      END
+      END subroutine gival
 
 
       SUBROUTINE SORTI(IPO,IVAL,NQ)
-      DIMENSION IPO(*),IVAL(*)
+       implicit none
+       integer, DIMENSION(*), intent(inout) :: IPO
+       integer, dimension(*), intent(in) :: IVAL
+       integer, intent(in) :: nq
 C  IPO -  POINTERS, IVAL - VALUES
 C  HEAPSORT ALGORITHM FROM NUMERICAL RECIPES
 C  POINTERS ARE ARRANGED IN THE ASCENDING OREDER OF IVAL'S
 C  IVAL'S ARE NOT MOVED
 C
+
+      integer :: i, ipt, ir, iva, j, l
+
       L=NQ/2+1
       IR=NQ
  10   CONTINUE
@@ -1620,7 +1626,7 @@ C
       IPO(I)=IPT
       GOTO 10
 C
-      END
+      END subroutine sorti
 
 
 

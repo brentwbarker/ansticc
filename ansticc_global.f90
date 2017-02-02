@@ -1,5 +1,6 @@
 module ansticc_global
  use iso_fortran_env
+ implicit none
 
  real(kind=REAL64), parameter, dimension(1:5) &
   :: masses = (/.9383, .9396, 1.8757, 2.8077, 2.8098/)
@@ -66,6 +67,8 @@ contains
   integer,                    intent(in)  :: nq
   integer, dimension(:,:,:), allocatable, intent(out) :: imn, imx
 !  integer, dimension(nyxn:nyxx,nyyn:nyyx,nyzn:nyzx),  intent(out) :: imn, imx
+
+  integer :: iqc, ivxyz, ix, iy, iz
 
   allocate(imn(nyxn:nyxx,nyyn:nyyx,nyzn:nyzx))
   allocate(imx(nyxn:nyxx,nyyn:nyyx,nyzn:nyzx))
