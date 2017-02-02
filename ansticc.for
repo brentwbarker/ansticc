@@ -1486,41 +1486,93 @@ c      and extension desired.
 
       SUBROUTINE GIVAL
        use ansticc_global
+       implicit none
 C
 !      INCLUDE 'MOS.INC'
 C
 !      INCLUDE 'PAR.INC'
 C
+      integer :: i, ix, iy, iz, ix2, iy2, iz22
+      real(kind=REAL64) :: ei, pi2, pxi, pyi, pzi, yxi, yyi, yzi
+
       DO I=1,IEN
 
-        ! determine indices of momentum cells
-        IX=NINT(IXXI(I)*1E-3/DPTL)
-        IY=NINT(IYYI(I)*1E-3/DPTL)
-        IZ=NINT(IZZI(I)*1E-3/DPTL)
+        ! determine indices of r-rapidity cells
+        pxi=ixxi(ien)*1e-3
+        pyi=iyyi(ien)*1e-3
+        pzi=izzi(ien)*1e-3
+        pi2=pxi**2+pyi**2+pzi**2
+        ei=sqrt(pi2+am1**2)
+        yxi=0.5*log((ei+pxi)/(ei-pxi))
+        yyi=0.5*log((ei+pyi)/(ei-pyi))
+        yzi=0.5*log((ei+pzi)/(ei-pzi))
 
-        ! if indices are within total momentum region considered,
-        IF(ABS(IX).LE.NT.AND.ABS(IY).LE.NT.AND.
-     I    IZ.GE.-NLM.AND.IZ.LE.NLX)THEN
-          IVAL(I)=IY*NTL1+IX*NLL1+IZ
-        ELSE
-          IVAL(I)=MAXIPO
-        ENDIF
-      ENDDO
+        ix = int(yxi/dyy)
+        iy = int(yyi/dyy)
+        iz = int(yzi/dyy)
+
+        ! if indices are within r-rapidity region chosen,
+        if (  ix.ge.nyxn.and.ix.le.nyxx
+     &   .and.iy.ge.nyyn.and.iy.le.nyyx
+     &   .and.iz.ge.nyzn.and.iz.le.nyzx ) then
+
+         ival(i) = iy*(nyxx-nyxn+1)*(nyzx-nyzn+1)+ix*(nyzx-nyzn+1)+iz
+        else
+         ival(i) = maxipo
+        endif ! within r-rapidity region
+!        ! determine indices of momentum cells
+!        IX=NINT(IXXI(I)*1E-3/DPTL)
+!        IY=NINT(IYYI(I)*1E-3/DPTL)
+!        IZ=NINT(IZZI(I)*1E-3/DPTL)
+
+
+!        ! if indices are within total momentum region considered,
+!        IF(ABS(IX).LE.NT.AND.ABS(IY).LE.NT.AND.
+!     I    IZ.GE.-NLM.AND.IZ.LE.NLX)THEN
+!          IVAL(I)=IY*NTL1+IX*NLL1+IZ
+!        ELSE
+!          IVAL(I)=MAXIPO
+!        ENDIF
+      ENDDO !ien
 C
       DO I=1,IEN2
 
-        ! determine indices of momentum cells
-        IX2=NINT(IXXI2(I)*1E-3/DPTL)
-        IY2=NINT(IYYI2(I)*1E-3/DPTL)
-        IZ22=NINT(IZZI2(I)*1E-3/DPTL)
+        ! determine indices of r-rapidity cells
+        pxi=ixxi2(ien)*1e-3
+        pyi=iyyi2(ien)*1e-3
+        pzi=izzi2(ien)*1e-3
+        pi2=pxi**2+pyi**2+pzi**2
+        ei=sqrt(pi2+am2**2)
+        yxi=0.5*log((ei+pxi)/(ei-pxi))
+        yyi=0.5*log((ei+pyi)/(ei-pyi))
+        yzi=0.5*log((ei+pzi)/(ei-pzi))
 
-        ! if indices are within total momentum region considered,
-        IF(ABS(IX2).LE.NT.AND.ABS(IY2).LE.NT.AND.
-     I    IZ22.GE.-NLM.AND.IZ22.LE.NLX)THEN
-          IVAL2(I)=IY2*NTL1+IX2*NLL1+IZ22
-        ELSE
-          IVAL2(I)=MAXIPO
-        ENDIF
+        ix = int(yxi/dyy)
+        iy = int(yyi/dyy)
+        iz = int(yzi/dyy)
+
+        ! if indices are within r-rapidity region chosen,
+        if (  ix.ge.nyxn.and.ix.le.nyxx
+     &   .and.iy.ge.nyyn.and.iy.le.nyyx
+     &   .and.iz.ge.nyzn.and.iz.le.nyzx ) then
+
+         ival2(i) = iy*(nyxx-nyxn+1)*(nyzx-nyzn+1)+ix*(nyzx-nyzn+1)+iz
+        else
+         ival2(i)=maxipo
+        endif ! within r-rapidity region
+
+!        ! determine indices of momentum cells
+!        IX2=NINT(IXXI2(I)*1E-3/DPTL)
+!        IY2=NINT(IYYI2(I)*1E-3/DPTL)
+!        IZ22=NINT(IZZI2(I)*1E-3/DPTL)
+!
+!        ! if indices are within total momentum region considered,
+!        IF(ABS(IX2).LE.NT.AND.ABS(IY2).LE.NT.AND.
+!     I    IZ22.GE.-NLM.AND.IZ22.LE.NLX)THEN
+!          IVAL2(I)=IY2*NTL1+IX2*NLL1+IZ22
+!        ELSE
+!          IVAL2(I)=MAXIPO
+!        ENDIF
       ENDDO
 C
       END
