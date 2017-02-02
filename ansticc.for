@@ -368,14 +368,12 @@ C
      &                    , yzx !< maximum x-rapidity of any particle
      &                    , yzn !< minimum x-rapidity of any particle
 
-
-
-      yxx=-10
-      yxn=10
-      yyx=-10
-      yyn=10
-      yzx=-10
-      yzn=10
+      yxx=-.10
+      yxn=.10
+      yyx=-.10
+      yyn=.10
+      yzx=-.10
+      yzn=.10
 
       PI=4.*ATAN(1.)
 C
