@@ -1081,8 +1081,8 @@ c     begin source calculation
              pjtok=pjtk+pzj*pzj
              pjto2=2*sqrt(pjtok)
              ANGT=ATAN2(PJT,PZJ)
-             ptmj=pjt/am1
-             ptmij=sqrt((pxi+pxj)**2+(pyi+pyj)**2)/(2.0*am1)
+             ptmj=pjt/am2
+             ptmij=sqrt((pxi+pxj)**2+(pyi+pyj)**2)/(2.0*am2)
              if(ptmij.le.pttmin(ipt).or.(ptmij.gt.pttmax))goto 260
              if((ptmj.le.ptmin).or.(ptmj.ge.ptmax))goto 260
              IF(ABS(ANGR-ANGT).GT.DANGR)GOTO 260 ! gate on lab theta
