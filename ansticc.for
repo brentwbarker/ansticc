@@ -1503,9 +1503,9 @@ C
       DO I=1,IEN
 
         ! determine indices of r-rapidity cells
-        pxi=ixxi(ien)*1e-3
-        pyi=iyyi(ien)*1e-3
-        pzi=izzi(ien)*1e-3
+        pxi=ixxi(i)*1e-3
+        pyi=iyyi(i)*1e-3
+        pzi=izzi(i)*1e-3
         pi2=pxi**2+pyi**2+pzi**2
         ei=sqrt(pi2+am1**2)
         yxi=0.5*log((ei+pxi)/(ei-pxi))
@@ -1543,9 +1543,9 @@ C
       DO I=1,IEN2
 
         ! determine indices of r-rapidity cells
-        pxi=ixxi2(ien)*1e-3
-        pyi=iyyi2(ien)*1e-3
-        pzi=izzi2(ien)*1e-3
+        pxi=ixxi2(i)*1e-3
+        pyi=iyyi2(i)*1e-3
+        pzi=izzi2(i)*1e-3
         pi2=pxi**2+pyi**2+pzi**2
         ei=sqrt(pi2+am2**2)
         yxi=0.5*log((ei+pxi)/(ei-pxi))
