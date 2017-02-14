@@ -39,24 +39,24 @@ module ansticc_global
  integer :: ien & !< number of particles of pid1
            ,ien2  !< number of particles of pid2
 
- real, parameter :: ptmx = 0.8 & !< p-transverse max
-                   ,plmn = 0.8 & !< p-longitudinal min (neg)
-                   ,plmx = 0.9   !< p-long max of momentum region
+! real, parameter :: ptmx = 0.8 & !< p-transverse max
+!                   ,plmn = 0.8 & !< p-longitudinal min (neg)
+!                   ,plmx = 0.9   !< p-long max of momentum region
 
- real (kind=REAL64), parameter :: vtmx = 0.65, vlmn=0.65, vlmx = 0.69 !< velocities based on above momenta that assume protons
+! real (kind=REAL64), parameter :: vtmx = 0.65, vlmn=0.65, vlmx = 0.69 !< velocities based on above momenta that assume protons
 
- real, parameter :: dptl = 0.025 !< width of momentum cell
+! real, parameter :: dptl = 0.025 !< width of momentum cell
 
  real (kind=REAL64), parameter :: dyy = 0.027 !< width of r-rapidity cell (based on
                                               !+ momentum cell width of 0.025 GeV/c)
 
  ! number of cells in transverse and longitudinal directions. in transverse, i=-nt,nt
- integer, PARAMETER :: NT =int(PTMX/DPTL+.5) &
-                      ,NLM=int(PLMN/DPTL+.5) &
-                      ,NLX=int(PLMX/DPTL+.5)
+! integer, PARAMETER :: NT =int(PTMX/DPTL+.5) &
+!                      ,NLM=int(PLMN/DPTL+.5) &
+!                      ,NLX=int(PLMX/DPTL+.5)
 
- integer, PARAMETER :: NLL1   = NLM+NLX+1 &      !< total number of cells in long-direction
-                      ,NTL1   = (NT+NT+1)*NLL1 & !< total number of cells in 2D x-z plane
+! integer, PARAMETER :: NLL1   = NLM+NLX+1 &      !< total number of cells in long-direction
+!                      ,NTL1   = (NT+NT+1)*NLL1 & !< total number of cells in 2D x-z plane
   integer :: MAXIPO ! = NT*NT*NLL1*10
 
 contains
