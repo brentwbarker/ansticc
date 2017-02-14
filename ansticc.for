@@ -592,6 +592,11 @@ c
      &        ,imn2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
      &        ,imx2(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
      &        )
+
+      maxipo =  (nyxx - nyxn + 1) + 9000
+     &        + (nyyx - nyyn + 1) * (nyxx-nyxn+1)
+     &        + (nyzx - nyzn + 1) * (nyxx-nyxn+1) * (nyyx-nyyn+1)
+
 c     initialize generic histogram
       if(ghist)then
        open(37,file='x11LHF7_hi.PTMY',status='unknown')

@@ -57,7 +57,7 @@ module ansticc_global
 
  integer, PARAMETER :: NLL1   = NLM+NLX+1 &      !< total number of cells in long-direction
                       ,NTL1   = (NT+NT+1)*NLL1 & !< total number of cells in 2D x-z plane
-                      ,MAXIPO = NT*NT*NLL1*10
+  integer :: MAXIPO ! = NT*NT*NLL1*10
 
 contains
 
