@@ -78,7 +78,9 @@ contains
    DO iy=nyyn,nyyx
     DO ix=nyxn,nyxx
      IMN(IX,IY,IZ)=IQC
-     IVXYZ = ix + iy*(nyxx-nyxn+1)+iz*(nyxx-nyxn+1)*(nyyx-nyyn+1)
+     IVXYZ = (ix - nyxn + 1) &
+           + (iy - nyyn + 1) * (nyxx-nyxn+1) &
+           + (iz - nyzn + 1) * (nyxx-nyxn+1) * (nyyx-nyyn+1)
  20  CONTINUE
      IF(IQC.GT.NQ)THEN
       IF(IMN(IX,IY,IZ).LE.NQ)THEN

@@ -1521,7 +1521,9 @@ C
      &   .and.iy.ge.nyyn.and.iy.le.nyyx
      &   .and.iz.ge.nyzn.and.iz.le.nyzx ) then
 
-         ival(i) = iy*(nyxx-nyxn+1)*(nyzx-nyzn+1)+ix*(nyzx-nyzn+1)+iz
+         ival(i) =  (ix - nyxn + 1)
+     &            + (iy - nyyn + 1) * (nyxx-nyxn+1)
+     &            + (iz - nyzn + 1) * (nyxx-nyxn+1) * (nyyx-nyyn+1)
         else
          ival(i) = maxipo
         endif ! within r-rapidity region
@@ -1561,7 +1563,9 @@ C
      &   .and.iy.ge.nyyn.and.iy.le.nyyx
      &   .and.iz.ge.nyzn.and.iz.le.nyzx ) then
 
-         ival2(i) = iy*(nyxx-nyxn+1)*(nyzx-nyzn+1)+ix*(nyzx-nyzn+1)+iz
+         ival2(i) = (ix - nyxn + 1)
+     &            + (iy - nyyn + 1) * (nyxx-nyxn+1)
+     &            + (iz - nyzn + 1) * (nyxx-nyxn+1) * (nyyx-nyyn+1)
         else
          ival2(i)=maxipo
         endif ! within r-rapidity region
