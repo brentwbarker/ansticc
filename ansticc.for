@@ -579,12 +579,12 @@ c
 
       ! initialize r-rapidity index arrays
       write(*,*)'y-extrema:',yxn,yxx,yyn,yyx,yzn,yzx
-      nyxn=int(yxn/dyy-0.5)
-      nyxx=int(yxx/dyy+0.5)
-      nyyn=int(yyn/dyy-0.5)
-      nyyx=int(yyx/dyy+0.5)
-      nyzn=int(yzn/dyy-0.5)
-      nyzx=int(yzx/dyy+0.5)
+      nyxn=floor(yxn/dyy)
+      nyxx=floor(yxx/dyy)
+      nyyn=floor(yyn/dyy)
+      nyyx=floor(yyx/dyy)
+      nyzn=floor(yzn/dyy)
+      nyzx=floor(yzx/dyy)
       write(*,*)'ny-extrema:',nyxn,nyxx,nyyn,nyyx,nyzn,nyzx
 
       allocate(imn(nyxn:nyxx, nyyn:nyyx, nyzn:nyzx)
@@ -1512,9 +1512,9 @@ C
         yyi=0.5*log((ei+pyi)/(ei-pyi))
         yzi=0.5*log((ei+pzi)/(ei-pzi))
 
-        ix = int(yxi/dyy)
-        iy = int(yyi/dyy)
-        iz = int(yzi/dyy)
+        ix = floor(yxi/dyy)
+        iy = floor(yyi/dyy)
+        iz = floor(yzi/dyy)
 
         ! if indices are within r-rapidity region chosen,
         if (  ix.ge.nyxn.and.ix.le.nyxx
@@ -1552,9 +1552,9 @@ C
         yyi=0.5*log((ei+pyi)/(ei-pyi))
         yzi=0.5*log((ei+pzi)/(ei-pzi))
 
-        ix = int(yxi/dyy)
-        iy = int(yyi/dyy)
-        iz = int(yzi/dyy)
+        ix = floor(yxi/dyy)
+        iy = floor(yyi/dyy)
+        iz = floor(yzi/dyy)
 
         ! if indices are within r-rapidity region chosen,
         if (  ix.ge.nyxn.and.ix.le.nyxx
